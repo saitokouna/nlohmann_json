@@ -354,6 +354,7 @@ class parser
                         }
                         break;
                     }
+
                     case token_type::end_of_input:
                     {
                         if (JSON_HEDLEY_UNLIKELY(m_lexer.get_position().chars_read_total == 1))
@@ -371,6 +372,7 @@ class parser
                                                 m_lexer.get_token_string(),
                                                 parse_error::create(101, m_lexer.get_position(), exception_message(token_type::literal_or_value, "value"), nullptr));
                     }
+
                     case token_type::uninitialized:
                     case token_type::end_array:
                     case token_type::end_object:

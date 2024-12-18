@@ -18816,7 +18816,7 @@ class serializer
                             // thus removing/ignoring the invalid characters
                             bytes = bytes_after_last_accept;
 
-                            // fix for #4552 - discussion pending
+                            // fix for #4552
                             if (error_handler == error_handler_t::ignore)
                             {
                                 bytes += undumped_chars;

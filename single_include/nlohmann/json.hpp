@@ -18816,6 +18816,12 @@ class serializer
                             // thus removing/ignoring the invalid characters
                             bytes = bytes_after_last_accept;
 
+                            // fix for #4552 - discussion pending
+                            if (error_handler == error_handler_t::ignore)
+                            {
+                                bytes += undumped_chars;
+                            }
+
                             if (error_handler == error_handler_t::replace)
                             {
                                 // add a replacement character

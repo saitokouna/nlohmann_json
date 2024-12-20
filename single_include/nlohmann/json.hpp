@@ -18606,7 +18606,8 @@ enum class error_handler_t
 {
     strict,  ///< throw a type_error exception in case of invalid UTF-8
     replace, ///< replace invalid UTF-8 sequences with U+FFFD
-    ignore   ///< ignore invalid UTF-8 sequences
+    ignore,  ///< ignore invalid UTF-8 sequences
+    keep     ///< keep invalid UTF-8 sequences
 };
 
 template<typename BasicJsonType>
@@ -18960,6 +18961,13 @@ class serializer
         std::size_t bytes_after_last_accept = 0;
         std::size_t undumped_chars = 0;
 
+        // copy string as-is if error handler is set to keep
+        if (error_handler == error_handler_t::keep)
+        {
+            o->write_characters(s.data(), s.size());
+            return;
+        }
+
         for (std::size_t i = 0; i < s.size(); ++i)
         {
             const auto byte = static_cast<std::uint8_t>(s[i]);
@@ -19090,12 +19098,6 @@ class serializer
                             // reset length buffer to the last accepted index;
                             // thus removing/ignoring the invalid characters
                             bytes = bytes_after_last_accept;
-
-                            // fix for #4552
-                            if (error_handler == error_handler_t::ignore)
-                            {
-                                bytes += undumped_chars;
-                            }
 
                             if (error_handler == error_handler_t::replace)
                             {

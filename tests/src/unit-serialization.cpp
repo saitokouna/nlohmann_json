@@ -109,9 +109,8 @@ TEST_CASE("serialization")
             CHECK_THROWS_AS(j.dump(1, ' ', false, json::error_handler_t::strict), json::type_error&);
 
             // see pending discussion at #4452
-            // CHECK(j.dump(-1, ' ', false, json::error_handler_t::ignore) == "\"123456\"");
-            CHECK(j.dump(-1, ' ', false, json::error_handler_t::ignore) == "\"123\xF1\xB0\x34\x35\x36\"");
-
+            CHECK(j.dump(-1, ' ', false, json::error_handler_t::ignore) == "\"123456\"");
+            CHECK(j.dump(-1, ' ', false, json::error_handler_t::keep) == "\"123\xF1\xB0\x34\x35\x36\"");
             CHECK(j.dump(-1, ' ', false, json::error_handler_t::replace) == "\"123\xEF\xBF\xBD\x34\x35\x36\"");
             CHECK(j.dump(-1, ' ', true, json::error_handler_t::replace) == "\"123\\ufffd456\"");
         }

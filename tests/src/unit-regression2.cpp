@@ -1000,8 +1000,8 @@ TEST_CASE("regression tests 2")
     {
         nlohmann::json node;
         node["test"] = "test\334\005";
-        const auto test_dump = node.dump(-1, ' ', false, nlohmann::json::error_handler_t::ignore);
-        CHECK(test_dump == "{\"test\":\"test\334\\u0005\"}");
+        const auto test_dump = node.dump(-1, ' ', false, nlohmann::json::error_handler_t::keep);
+        CHECK(test_dump == "{\"test\":\"test\334\005\"}");
     }
 }
 

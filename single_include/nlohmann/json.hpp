@@ -18961,8 +18961,8 @@ class serializer
         std::size_t bytes_after_last_accept = 0;
         std::size_t undumped_chars = 0;
 
-        // copy string as-is if error handler is set to keep
-        if (error_handler == error_handler_t::keep)
+        // copy string as-is if error handler is set to keep, and we don't want to ensure ASCII
+        if (error_handler == error_handler_t::keep && !ensure_ascii)
         {
             o->write_characters(s.data(), s.size());
             return;
@@ -19137,7 +19137,22 @@ class serializer
                             break;
                         }
 
-                        case error_handler_t::keep: // LCOV_EXCL_LINE
+                        case error_handler_t::keep:
+                        {
+                            // copy undumped chars to string buffer
+                            for (int j = 0; j < undumped_chars; ++j)
+                            {
+                                string_buffer[bytes++] = s[bytes_after_last_accept + j];
+                            }
+
+                            // add erroneous byte to string buffer
+                            string_buffer[bytes++] = s[i];
+
+                            // continue processing the string
+                            state = UTF8_ACCEPT;
+                            break;
+                        }
+
                         default:                    // LCOV_EXCL_LINE
                             JSON_ASSERT(false);     // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert) LCOV_EXCL_LINE
                     }
@@ -19176,6 +19191,20 @@ class serializer
                     JSON_THROW(type_error::create(316, concat("incomplete UTF-8 string; last byte: 0x", hex_bytes(static_cast<std::uint8_t>(s.back() | 0))), nullptr));
                 }
 
+                case error_handler_t::keep:
+                {
+                    // copy undumped chars to string buffer
+                    for (int j = 0; j < undumped_chars; ++j)
+                    {
+                        string_buffer[bytes++] = s[bytes_after_last_accept + j];
+                    }
+                    undumped_chars = 0;
+
+                    // write all accepted bytes
+                    o->write_characters(string_buffer.data(), bytes);
+                    break;
+                }
+
                 case error_handler_t::ignore:
                 {
                     // write all accepted bytes
@@ -19199,7 +19228,6 @@ class serializer
                     break;
                 }
 
-                case error_handler_t::keep: // LCOV_EXCL_LINE
                 default:                    // LCOV_EXCL_LINE
                     JSON_ASSERT(false);     // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert) LCOV_EXCL_LINE
             }

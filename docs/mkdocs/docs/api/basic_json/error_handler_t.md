@@ -18,7 +18,7 @@ replace
 :   replace invalid UTF-8 sequences with U+FFFD (� REPLACEMENT CHARACTER)
 
 ignore
-:   ignore invalid UTF-8 sequences
+:   ignore invalid UTF-8 sequences; these bytes are skipped and not copied to the output
 
 keep
 :   keep invalid UTF-8 sequences; all bytes are copied to the output unchanged

@@ -578,7 +578,7 @@ class serializer
                         case error_handler_t::keep:
                         {
                             // copy undumped chars to string buffer
-                            for (int j = 0; j < undumped_chars; ++j)
+                            for (std::size_t j = 0; j < undumped_chars; ++j)
                             {
                                 string_buffer[bytes++] = s[bytes_after_last_accept + j];
                             }
@@ -632,7 +632,7 @@ class serializer
                 case error_handler_t::keep:
                 {
                     // copy undumped chars to string buffer
-                    for (int j = 0; j < undumped_chars; ++j)
+                    for (std::size_t j = 0; j < undumped_chars; ++j)
                     {
                         string_buffer[bytes++] = s[bytes_after_last_accept + j];
                     }

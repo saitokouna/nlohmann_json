@@ -591,8 +591,8 @@ class serializer
                             break;
                         }
 
-                        default:                    // LCOV_EXCL_LINE
-                            JSON_ASSERT(false);     // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert) LCOV_EXCL_LINE
+                        default:                // LCOV_EXCL_LINE
+                            JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert) LCOV_EXCL_LINE
                     }
                     break;
                 }

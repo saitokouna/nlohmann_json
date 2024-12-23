@@ -25,7 +25,7 @@ and `ensure_ascii` parameters.
     result consists of ASCII characters only.
 
 `error_handler` (in)
-:   how to react on decoding errors; there are three possible values (see [`error_handler_t`](error_handler_t.md)):
+:   how to react on decoding errors; there are four possible values (see [`error_handler_t`](error_handler_t.md)):
 :   - `strict`: throws a [`type_error`](../../home/exceptions.md#type-errors) exception in case a decoding error occurs (this is the default),
     - `replace`: replace invalid UTF-8 sequences with U+FFFD (� REPLACEMENT CHARACTER),
     - `ignore`: ignore invalid UTF-8 sequences during serialization (i.e., these bytes are skipped and not copied to the output), and

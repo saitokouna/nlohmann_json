@@ -1018,7 +1018,7 @@ TEST_CASE("regression tests 2")
 
     SECTION("issue #3810 - ordered_json doesn't support construction from C array of custom type")
     {
-        Example_3810 states[45];
+        const Example_3810 states[45]; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
 
         // This works:
         nlohmann::json j;
@@ -1030,7 +1030,7 @@ TEST_CASE("regression tests 2")
         oj["test"] = states;
         CHECK(oj["test"].dump() == "[{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0}]");
 
-        CHECK(j == oj);
+        CHECK(j["test"].dump() == oj["test"].dump());
     }
 }
 

@@ -384,6 +384,8 @@ inline for_3333::for_3333(const json& j)
 struct Example_3810
 {
     int bla{};
+
+    Example_3810() = default;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Example_3810, bla);
@@ -1018,19 +1020,22 @@ TEST_CASE("regression tests 2")
 
     SECTION("issue #3810 - ordered_json doesn't support construction from C array of custom type")
     {
-        const Example_3810 states[45]; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
+        Example_3810 states[45]; // NOLINT(cppcoreguidelines-avoid-c-arrays,hicpp-avoid-c-arrays,modernize-avoid-c-arrays)
+
+        // fix "not used" warning
+        states[0].bla = 1;
+
+        const auto expected = "[{\"bla\":1},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0}]";
 
         // This works:
         nlohmann::json j;
         j["test"] = states;
-        CHECK(j["test"].dump() == "[{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0}]");
+        CHECK(j["test"].dump() == expected);
 
         // This doesn't compile:
         nlohmann::ordered_json oj;
         oj["test"] = states;
-        CHECK(oj["test"].dump() == "[{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0}]");
-
-        CHECK(j["test"].dump() == oj["test"].dump());
+        CHECK(oj["test"].dump() == expected);
     }
 }
 

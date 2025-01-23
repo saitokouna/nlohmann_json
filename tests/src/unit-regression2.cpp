@@ -1025,7 +1025,7 @@ TEST_CASE("regression tests 2")
         // fix "not used" warning
         states[0].bla = 1;
 
-        const auto expected = "[{\"bla\":1},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0}]";
+        const auto* const expected = "[{\"bla\":1},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0},{\"bla\":0}]";
 
         // This works:
         nlohmann::json j;
